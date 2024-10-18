@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class HabitStatistics {
 
@@ -79,13 +80,18 @@ public class HabitStatistics {
         return (successfulDays / (double) totalDays) * 100;
     }
 
-    public static void generateProgressReport(User user, LocalDate startDate, LocalDate endDate) {
-        List<Habit> habits = user.getHabitManager().listHabits();
+    public void generateProgressReport(User user, LocalDate startDate, LocalDate endDate) {
+        Map<String, Habit> habits = user.getHabitManager().listHabits();
+
+        if (habits.isEmpty()) {
+            System.out.println("No habits found for the user.");
+            return;
+        }
 
         System.out.println("Progress Report from " + startDate + " to " + endDate);
         System.out.println("-----------------------------------------------------");
 
-        for (Habit habit : habits) {
+        for (Habit habit : habits.values()) {
             int streak = getCurrentStreak(habit);
             double successPercentage = getSuccessPercentage(habit, startDate, endDate);
             long totalSuccessfulDays = habit.getCompletionHistory().stream()
@@ -99,4 +105,5 @@ public class HabitStatistics {
             System.out.println("-----------------------------------------------------");
         }
     }
+
 }

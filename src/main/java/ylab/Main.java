@@ -4,11 +4,12 @@ import ylab.menu.MainMenu;
 import ylab.menu.MenuManager;
 import ylab.utils.UserManager;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        UserManager userManager = new UserManager();
+        UserManager userManager = new UserManager(new HashMap<>());
         Scanner scanner = new Scanner(System.in);
         MenuManager menuManager = new MenuManager();
 

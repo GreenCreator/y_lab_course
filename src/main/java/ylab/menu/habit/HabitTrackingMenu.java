@@ -10,10 +10,12 @@ import java.util.Scanner;
 
 public class HabitTrackingMenu extends BaseMenu {
     private User user;
+    private HabitStatistics habitStatistics;
 
     public HabitTrackingMenu(User user, MenuManager menuManager, Scanner scanner) {
         super(menuManager, scanner);
         this.user = user;
+        habitStatistics = new HabitStatistics();
     }
 
     @Override
@@ -52,7 +54,7 @@ public class HabitTrackingMenu extends BaseMenu {
                 System.out.println("Enter end date (YYYY-MM-DD): ");
                 LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
-                HabitStatistics.generateProgressReport(user, startDate, endDate);
+                habitStatistics.generateProgressReport(user, startDate, endDate);
                 break;
             case 4:
                 backMenu();

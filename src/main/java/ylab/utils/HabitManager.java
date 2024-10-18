@@ -2,21 +2,20 @@ package ylab.utils;
 
 import ylab.entity.habit.Habit;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HabitManager {
-    private List<Habit> habits = new ArrayList<>();
+    private Map<String, Habit> habits = new HashMap<>();
 
     public void createHabit(String title, String description, String frequency) {
         Habit habit = new Habit(title, description, frequency);
-        habits.add(habit);
+        habits.put(title, habit);
         System.out.println("Habit created.");
     }
 
     public void deleteHabit(String title) {
-        Habit habit = findHabitById(title);
+        Habit habit = getHabitByTitle(title);
         if (habit != null) {
             habits.remove(habit);
             System.out.println("Habit deleted.");
@@ -25,25 +24,12 @@ public class HabitManager {
         }
     }
 
-    public List<Habit> listHabits() {
+    public Map<String, Habit> listHabits() {
         return habits;
     }
 
-    private Habit findHabitById(String title) {
-        for (Habit habit : habits) {
-            if (habit.getTitle().equals(title)) {
-                return habit;
-            }
-        }
-        return null;
-    }
-
     public Habit getHabitByTitle(String title) {
-        Optional<Habit> habit = habits.stream()
-                .filter(h -> h.getTitle().equalsIgnoreCase(title))
-                .findFirst();
-
-        return habit.orElse(null);
+        return habits.get(title);
     }
 }
 

@@ -3,10 +3,17 @@ package ylab.utils;
 import ylab.entity.admin.Admin;
 import ylab.entity.user.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class UserManager {
-    private Map<String, User> users = new HashMap<>();
+public class UserManager implements IUser {
+
+    private Map<String, User> users;
+
+    public UserManager(Map<String, User> users) {
+        this.users = users;
+    }
 
     public boolean registerUser(String name, String email, String password) {
         if (users.containsKey(email)) {
@@ -29,21 +36,18 @@ public class UserManager {
     }
 
     public User login(String email, String password) {
-        if (users.containsKey(email)) {
-            User user = users.get(email);
-            if (user.getPassword().equals(password)) {
-                if (user.GetBlockedStatus()) {
-                    System.out.println("Login successful.");
-                } else {
-                    System.out.println("Login successful.");
-                }
-                return user;
-            } else {
-                System.out.println("Invalid password.");
-            }
-        } else {
+        if (!users.containsKey(email)) {
             System.out.println("User not found.");
+            return null;
         }
+
+        User user = users.get(email);
+        if (user.getPassword().equals(password)) {
+            System.out.println("Login successful.");
+            return user;
+        }
+
+        System.out.println("Invalid password.");
         return null;
     }
 
@@ -65,13 +69,8 @@ public class UserManager {
 
     // Метод для блокировки пользователя
     public void blockUser(String email) {
-        Optional<User> user = findUserByEmail(email);
-        user.ifPresent(u -> u.setBlockedStatus(true)); // Устанавливаем флаг блокировки
-    }
-
-    // Метод для поиска пользователя по email
-    private Optional<User> findUserByEmail(String email) {
-        return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst();
+        var user = getUserByEmail(email);
+        user.setBlockedStatus(true);
     }
 }
 

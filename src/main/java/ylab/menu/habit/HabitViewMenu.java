@@ -6,7 +6,7 @@ import ylab.menu.BaseMenu;
 import ylab.menu.MenuManager;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -52,9 +52,9 @@ public class HabitViewMenu extends BaseMenu {
         String dateInput = getScanner().nextLine();
         LocalDate filterDate = LocalDate.parse(dateInput); // Преобразуем ввод в дату
 
-        List<Habit> filteredHabits = user.getHabitManager().listHabits().stream()
+        Map<String, Habit> filteredHabits = user.getHabitManager().listHabits().values().stream()
                 .filter(habit -> habit.getCreationDate().isAfter(filterDate))
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(Habit::getTitle, habit -> habit));
 
         displayFilteredHabits(filteredHabits);
     }
@@ -65,23 +65,23 @@ public class HabitViewMenu extends BaseMenu {
 
         boolean isCompleted = statusInput.equals("completed");
 
-        List<Habit> filteredHabits = user.getHabitManager().listHabits().stream()
+        Map<String, Habit> filteredHabits = user.getHabitManager().listHabits().values().stream()
                 .filter(habit -> habit.isCompleted() == isCompleted)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(Habit::getTitle, habit -> habit));
 
         displayFilteredHabits(filteredHabits);
     }
 
     private void showAllHabits() {
-        List<Habit> allHabits = user.getHabitManager().listHabits();
+        var allHabits = user.getHabitManager().listHabits();
         displayFilteredHabits(allHabits);
     }
 
-    protected void displayFilteredHabits(List<Habit> habits) {
+    protected void displayFilteredHabits(Map<String, Habit> habits) {
         if (habits.isEmpty()) {
             System.out.println("No habits found with the specified filter.");
         } else {
-            habits.forEach(habit -> {
+            habits.values().forEach(habit -> {
                 System.out.println("Habit: " + habit.getTitle() +
                         ", Description: " + habit.getDescription() +
                         ", Created: " + habit.getCreationDate() +

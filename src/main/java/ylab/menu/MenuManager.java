@@ -33,7 +33,6 @@ public class MenuManager {
             currentMenu.display();
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
-//            scanner.nextLine(); // consume newline
             currentMenu.handleInput(choice);
         }
     }
