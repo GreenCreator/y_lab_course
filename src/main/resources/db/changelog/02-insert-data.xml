@@ -1,0 +1,17 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2" author="your_name">
+        <insert tableName="habit" schemaName="your_schema">
+            <column name="id" valueSequenceNext="your_schema.habit_id_seq"/>
+            <column name="title" value="Exercise"/>
+            <column name="description" value="Morning run"/>
+            <column name="frequency" value="Daily"/>
+            <column name="completed" value="false"/>
+            <column name="creation_date" value="2023-01-01"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

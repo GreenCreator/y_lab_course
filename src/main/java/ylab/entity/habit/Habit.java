@@ -1,4 +1,5 @@
 package ylab.entity.habit;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,10 @@ public class Habit {
 
     public LocalDate getCreationDate() {
         return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getFrequency() {

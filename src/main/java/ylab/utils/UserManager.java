@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UserManager implements IUser {
+public class UserManager implements IUserMaganer {
 
     private Map<String, User> users;
 

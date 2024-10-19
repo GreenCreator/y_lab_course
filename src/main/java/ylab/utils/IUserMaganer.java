@@ -4,7 +4,7 @@ import ylab.entity.user.User;
 
 import java.util.List;
 
-public interface IUser {
+public interface IUserMaganer {
 
     /**
      * Create user
