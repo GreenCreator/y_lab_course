@@ -9,6 +9,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -115,6 +117,7 @@ public class HabitStatisticsTest {
     @Test
     public void testGenerateProgressReport() {
         User user = Mockito.mock(User.class);
+        HabitStatistics habitStatistics = Mockito.mock(HabitStatistics.class);
         Habit habit1 = Mockito.mock(Habit.class);
         Habit habit2 = Mockito.mock(Habit.class);
 
@@ -129,15 +132,19 @@ public class HabitStatisticsTest {
                 LocalDate.of(2024, 10, 1)
         ));
 
+        Map<String, Habit> habitsMap = new HashMap<>();
+        habitsMap.put(habit1.getTitle(), habit1);
+        habitsMap.put(habit2.getTitle(), habit2);
+
         Mockito.when(user.getHabitManager()).thenReturn(Mockito.mock(HabitManager.class));
-        Mockito.when(user.getHabitManager().listHabits()).thenReturn(Arrays.asList(habit1, habit2));
+        Mockito.when(user.getHabitManager().listHabits()).thenReturn(habitsMap);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
         LocalDate startDate = LocalDate.of(2024, 10, 1);
         LocalDate endDate = LocalDate.of(2024, 10, 31);
-        HabitStatistics.generateProgressReport(user, startDate, endDate);
+        habitStatistics.generateProgressReport(user, startDate, endDate);
 
         String output = outputStream.toString();
         assertTrue(output.contains("Progress Report from 2024-10-01 to 2024-10-31"));

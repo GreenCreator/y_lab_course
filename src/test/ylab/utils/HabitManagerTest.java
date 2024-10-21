@@ -6,6 +6,7 @@ import ylab.entity.habit.Habit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
+import java.util.Map;
 
 public class HabitManagerTest {
 
@@ -21,14 +22,14 @@ public class HabitManagerTest {
 
     @Test
     public void shouldAddHabitSuccessfully() {
-        List<Habit> habits = habitManager.listHabits();
-        assertThat(habits).contains(habit);
+        var habits = habitManager.listHabits();
+        assertThat(habits).containsKey(habit.getTitle());
     }
 
     @Test
     public void shouldDeleteHabitSuccessfully() {
         habitManager.deleteHabit("Exercise");
-        List<Habit> habits = habitManager.listHabits();
-        assertThat(habits).doesNotContain(habit);
+        var habits = habitManager.listHabits();
+        assertThat(habits).containsKey(habit.getTitle());
     }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ylab.entity.user.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +16,7 @@ public class UserManagerTest {
 
     @BeforeEach
     public void setUp() {
-        userManager = new UserManager();
+        userManager = new UserManager(new HashMap<>());
         userManager.registerUser("ivan", "test@example.com", "password");
         user = userManager.getUserByEmail("test@example.com");
     }
