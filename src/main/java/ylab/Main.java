@@ -18,15 +18,17 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String USER_NAME = "user_ylab";
-    private static final String PASSWORD = "password_ylab";
-
     public static void main(String[] args) {
 
-        try (Connection connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD)) {
+        Config config = new Config();
+        String dbUrl = config.getDbUrl();
+        String dbUsername = config.getDbUsername();
+        String dbPassword = config.getDbPassword();
+        String changeLogFile = config.getLiquibaseChangeLogFile();
+
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword)) {
             var database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            Liquibase liquibase = new Liquibase("db/changelog/db.changelog-master.xml", new ClassLoaderResourceAccessor(), database);
+            Liquibase liquibase = new Liquibase(changeLogFile, new ClassLoaderResourceAccessor(), database);
             liquibase.update(new Contexts());
             System.out.println("Migration is complete successfully.");
         } catch (SQLException | LiquibaseException e) {
