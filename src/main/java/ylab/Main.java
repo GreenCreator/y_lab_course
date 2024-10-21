@@ -1,5 +1,11 @@
 package ylab;
 
+import liquibase.Contexts;
+import liquibase.Liquibase;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
+import liquibase.resource.ClassLoaderResourceAccessor;
 import ylab.menu.MainMenu;
 import ylab.menu.MenuManager;
 import ylab.utils.UserManager;
@@ -7,7 +13,6 @@ import ylab.utils.UserManager;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -20,12 +25,11 @@ public class Main {
     public static void main(String[] args) {
 
         try (Connection connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD)) {
-            Statement statement = connection.createStatement();
-            var result = statement.executeQuery("SELECT count(*) FROM information_schema.tables");
-            while (result.next()) {
-                System.out.println("Table count: " + result.getInt("count"));
-            }
-        } catch (SQLException e) {
+            var database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+            Liquibase liquibase = new Liquibase("db/changelog/db.changelog-master.xml", new ClassLoaderResourceAccessor(), database);
+            liquibase.update(new Contexts());
+            System.out.println("Migration is complete successfully.");
+        } catch (SQLException | LiquibaseException e) {
             System.out.println(e.getMessage());
         }
 
