@@ -6,7 +6,7 @@
 
     <changeSet id="2" author="alkoval">
         <insert tableName="users" schemaName="entity">
-            <column name="id" valueNumeric="1"/>
+            <column name="id" valueNumeric="nextval('entity.user_id_seq')"/>
             <column name="name" value="User1"/>
             <column name="email" value="test@email.ru"/>
             <column name="password" value="password"/>
@@ -15,7 +15,7 @@
         </insert>
 
         <insert tableName="users" schemaName="entity">
-            <column name="id" valueNumeric="2"/>
+            <column name="id" valueNumeric="nextval('entity.user_id_seq')"/>
             <column name="name" value="admin"/>
             <column name="email" value="admin@email.ru"/>
             <column name="password" value="admin"/>
@@ -24,7 +24,7 @@
         </insert>
 
         <insert tableName="habits" schemaName="entity">
-            <column name="id" valueNumeric="1"/>
+            <column name="id" valueNumeric="nextval('entity.habit_id_seq')"/>
             <column name="title" value="Exercise"/>
             <column name="description" value="Morning run"/>
             <column name="frequency" value="Daily"/>

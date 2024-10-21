@@ -7,6 +7,9 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="1" author="alkoval">
+        <createSequence sequenceName="user_id_seq" schemaName="entity" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="habit_id_seq" schemaName="entity" startValue="1" incrementBy="1"/>
+
         <createTable tableName="users" schemaName="entity">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
