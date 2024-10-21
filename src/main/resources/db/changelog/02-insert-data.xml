@@ -5,7 +5,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="2" author="alkoval">
-        <insert tableName="users">
+        <insert tableName="users" schemaName="entity">
             <column name="id" valueNumeric="1"/>
             <column name="name" value="User1"/>
             <column name="email" value="test@email.ru"/>
@@ -14,7 +14,7 @@
             <column name="admin" value="false"/>
         </insert>
 
-        <insert tableName="users">
+        <insert tableName="users" schemaName="entity">
             <column name="id" valueNumeric="2"/>
             <column name="name" value="admin"/>
             <column name="email" value="admin@email.ru"/>
@@ -23,7 +23,7 @@
             <column name="admin" value="true"/>
         </insert>
 
-        <insert tableName="habits">
+        <insert tableName="habits" schemaName="entity">
             <column name="id" valueNumeric="1"/>
             <column name="title" value="Exercise"/>
             <column name="description" value="Morning run"/>

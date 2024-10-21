@@ -1,7 +1,8 @@
-version: '3'
+version: '3.8'
+
 services:
   postgres:
-    image: postgres:14
+    image: postgres:latest
     container_name: postgres-db
     environment:
       POSTGRES_USER: user_ylab
@@ -9,5 +10,20 @@ services:
       POSTGRES_DB: habit_ylab_db
     ports:
       - "5432:5432"
+
+  liquibase:
+    image: liquibase/liquibase
+    container_name: liquibase
+    depends_on:
+      - postgres
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./src/main/resources/db/changelog:/liquibase/changelog
+    environment:
+      LIQUIBASE_URL: jdbc:postgresql://postgres-db:5432/postgres
+      LIQUIBASE_USERNAME: user_ylab
+      LIQUIBASE_PASSWORD: password_ylab
+      LIQUIBASE_CHANGELOG_FILE: /liquibase/changelog/db.changelog-master.xml
+    command: update
+
+volumes:
+  postgres_data:

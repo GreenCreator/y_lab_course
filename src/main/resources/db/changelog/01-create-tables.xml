@@ -7,7 +7,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="1" author="alkoval">
-        <createTable tableName="users">
+        <createTable tableName="users" schemaName="entity">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -17,8 +17,9 @@
             <column name="blockedStatus" type="bool"/>
             <column name="admin" type="bool"/>
         </createTable>
-        <createTable tableName="habits">
-            <column name="id" type="SERIAL">
+
+        <createTable tableName="habits" schemaName="entity">
+            <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)"/>
