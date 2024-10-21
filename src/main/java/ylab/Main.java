@@ -19,8 +19,8 @@ import java.util.Scanner;
 public class Main {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String USER_NAME = "postgres";
-    private static final String PASSWORD = "password";
+    private static final String USER_NAME = "user_ylab";
+    private static final String PASSWORD = "password_ylab";
 
     public static void main(String[] args) {
 
