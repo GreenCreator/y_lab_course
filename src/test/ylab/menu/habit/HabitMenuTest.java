@@ -48,7 +48,7 @@ public class HabitMenuTest {
 
         habitMenu.handleInput(1);
 
-        verify(user.getHabitManager()).createHabit("New Habit", "New Description", "daily");
+        verify(user.getHabitManager()).createHabit("New Habit", "New Description", "daily", user.getId());
     }
 
     @Test

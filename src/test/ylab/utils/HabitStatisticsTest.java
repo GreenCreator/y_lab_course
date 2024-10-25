@@ -132,12 +132,12 @@ public class HabitStatisticsTest {
                 LocalDate.of(2024, 10, 1)
         ));
 
-        Map<String, Habit> habitsMap = new HashMap<>();
-        habitsMap.put(habit1.getTitle(), habit1);
-        habitsMap.put(habit2.getTitle(), habit2);
+        Map<Long, Habit> habitsMap = new HashMap<>();
+        habitsMap.put(habit1.getId(), habit1);
+        habitsMap.put(habit2.getId(), habit2);
 
         Mockito.when(user.getHabitManager()).thenReturn(Mockito.mock(HabitManager.class));
-        Mockito.when(user.getHabitManager().listHabits()).thenReturn(habitsMap);
+        Mockito.when(user.getHabitManager().listHabits(user.getId())).thenReturn(habitsMap);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));

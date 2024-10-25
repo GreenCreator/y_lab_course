@@ -1,10 +1,11 @@
 package ylab.entity.user;
 
+import ylab.impl.HabitRepositoryImpl;
 import ylab.utils.HabitManager;
 
 public class User {
     private static int idCounter = 0;
-    private int id;
+    private long id;
     private String name;
     private String email;
     private String password;
@@ -12,16 +13,15 @@ public class User {
     private boolean blockedStatus;
     private HabitManager habitManager;
 
-    public User(String name, String email, String password, boolean isAdmin) {
-        this.id = ++idCounter;
+    public User(String name, String email, String password, boolean isAdmin, HabitRepositoryImpl habitRepository) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
-        this.habitManager = new HabitManager();
+        this.habitManager = new HabitManager(habitRepository);
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -63,5 +63,9 @@ public class User {
 
     public boolean GetBlockedStatus() {
         return blockedStatus;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

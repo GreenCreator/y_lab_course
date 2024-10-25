@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ylab.entity.admin.Admin;
 import ylab.entity.user.User;
+import ylab.impl.HabitRepositoryImpl;
 import ylab.utils.UserManager;
 
 import java.io.ByteArrayOutputStream;
@@ -18,14 +19,15 @@ class AdminTest {
     private Admin admin;
     private UserManager userManager;
     private List<User> users;
+    private HabitRepositoryImpl habitRepo;
 
     @BeforeEach
     void setUp() {
         userManager = mock(UserManager.class);
-
+        habitRepo = mock(HabitRepositoryImpl.class);
         users = new ArrayList<>();
-        users.add(new User("User One", "user1@example.com", "password1", false));
-        users.add(new User("User Two", "user2@example.com", "password2", false));
+        users.add(new User("User One", "user1@example.com", "password1", false, habitRepo));
+        users.add(new User("User Two", "user2@example.com", "password2", false, habitRepo));
 
         admin = new Admin("Admin Name", "admin@example.com", "password", userManager);
     }

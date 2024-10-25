@@ -5,20 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Habit {
+    private long id;
     private String title;
     private String description;
     private String frequency;
     private boolean completed;
     private LocalDate creationDate;
     private List<LocalDate> completionHistory;
+    private long userId;
 
-    public Habit(String title, String description, String frequency) {
+    public Habit(long id, String title, String description, String frequency, boolean completed, LocalDate creationDate, long userId) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.frequency = frequency;
-        this.completed = false;
-        this.creationDate = LocalDate.now();
+        this.completed = completed;
+        this.creationDate = creationDate;
         this.completionHistory = new ArrayList<>();
+        this.userId = userId;
     }
 
     public void markCompleted() {
@@ -64,5 +68,17 @@ public class Habit {
 
     public String getFrequency() {
         return frequency;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getUserId() {
+        return userId;
     }
 }

@@ -38,18 +38,21 @@ public class UserSettingMenu extends BaseMenu {
                 System.out.print("Enter new name: ");
                 String name = scanner.nextLine();
                 user.setName(name);
+                userManager.updateNameUser(user);
                 break;
             case 2:
                 System.out.print("Current email: " + user.getEmail() + "\n");
                 System.out.print("Enter new email: ");
                 String email = scanner.nextLine();
                 user.setEmail(email);
+                userManager.updateEmailUser(user);
                 break;
             case 3:
                 System.out.print("Current password: " + user.getPassword() + "\n");
                 System.out.print("Enter new password: ");
                 String password = scanner.nextLine();
                 user.setPassword(password);
+                userManager.updatePasswordUser(user);
                 break;
             case 4:
                 System.out.print("Are you sure you want to delete your account? (yes/no): ");

@@ -14,7 +14,7 @@ public interface IUserMaganer {
     /**
      * Create admin
      */
-    boolean registerAdmin(String name, String email, String password, UserManager userManager);
+    boolean registerAdmin(String name, String email, String password);
 
     /**
      * Login user or admin
