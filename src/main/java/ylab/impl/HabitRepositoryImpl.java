@@ -2,13 +2,23 @@ package ylab.impl;
 
 import ylab.entity.habit.Habit;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HabitRepositoryImpl implements HabitRepository {
 
-    private static final String SAVE_Sql = "INSERT INTO your_schema.habits (title, description, frequency, creation_date) VALUES (?, ?, ?, ?)";
+    private static final String SAVE_SQL = "INSERT INTO entity.habits (id, title, description, frequency, completed, creation_date, user_id) " +
+            "VALUES (nextval('entity.habit_id_seq'), ?, ?, ?, ?, ?, ?) RETURNING id";
+
+    private static final String SELECT_FROM_USER_ID_SQL = "SELECT * FROM entity.habits WHERE user_id = ?";
+    private static final String SELECT_SQL = "SELECT * FROM entity.habits WHERE id = ?";
+    private static final String SELECT_BY_TITLE = "SELECT * FROM entity.habits WHERE title = ?";
+    private static final String UPDATE_DESCRIPTION_SQL = "UPDATE entity.habits SET description = ? WHERE title = ?";
+
 
     private final Connection connection;
 
@@ -18,10 +28,7 @@ public class HabitRepositoryImpl implements HabitRepository {
 
     @Override
     public Habit save(Habit habit) {
-        String sql = "INSERT INTO entity.habits (id, title, description, frequency, completed, creation_date, user_id) " +
-                "VALUES (nextval('entity.habit_id_seq'), ?, ?, ?, ?, ?, ?) RETURNING id";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_SQL)) {
             statement.setString(1, habit.getTitle());
             statement.setString(2, habit.getDescription());
             statement.setString(3, habit.getFrequency());
@@ -45,11 +52,10 @@ public class HabitRepositoryImpl implements HabitRepository {
 
     @Override
     public Map<Long, Habit> findAll(long user_id) {
-        String sql = "SELECT * FROM entity.habits WHERE user_id = ?"; // Используем параметр вместо прямого сравнения
         Map<Long, Habit> habits = new HashMap<>();
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) { // Используем PreparedStatement для параметризированного запроса
-            stmt.setLong(1, user_id); // Устанавливаем значение user_id
+        try (PreparedStatement stmt = connection.prepareStatement(SELECT_FROM_USER_ID_SQL)) {
+            stmt.setLong(1, user_id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Habit habit = new Habit(
@@ -71,9 +77,7 @@ public class HabitRepositoryImpl implements HabitRepository {
 
     @Override
     public void deleteById(Long id) {
-        String sql = "DELETE FROM entity.habits WHERE id = ?";
-
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(SELECT_SQL)) {
             pstmt.setLong(1, id);
             pstmt.executeUpdate();
 
@@ -83,8 +87,7 @@ public class HabitRepositoryImpl implements HabitRepository {
     }
 
     public Habit findByTitle(String title) {
-        String sql = "SELECT * FROM entity.habits WHERE title = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_BY_TITLE)) {
             statement.setString(1, title);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -106,8 +109,7 @@ public class HabitRepositoryImpl implements HabitRepository {
     }
 
     public void updateDescriptionByTitle(String title, String newDescription) {
-        String sql = "UPDATE entity.habits SET description = ? WHERE title = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_DESCRIPTION_SQL)) {
             statement.setString(1, newDescription);
             statement.setString(2, title);
             int rowsUpdated = statement.executeUpdate();

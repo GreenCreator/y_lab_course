@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepositoryImpl {
+public class UserRepositoryImpl implements UserRepository {
 
     private final Connection connection;
     private final HabitRepositoryImpl habitRepository;

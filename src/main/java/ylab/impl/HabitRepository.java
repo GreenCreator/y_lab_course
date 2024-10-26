@@ -22,4 +22,14 @@ public interface HabitRepository {
      * @param id - id habit
      */
     void deleteById(Long id);
+
+    /**
+     * Find Habit by title
+     */
+    Habit findByTitle(String title);
+
+    /**
+     * Update description habit
+     */
+    void updateDescriptionByTitle(String title, String newDescription);
 }

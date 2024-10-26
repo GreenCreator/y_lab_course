@@ -1,5 +1,6 @@
 package ylab.menu;
 
+import ylab.ConnectRepo;
 import ylab.entity.admin.Admin;
 import ylab.menu.admin.AdminMenu;
 import ylab.menu.user.UserMenu;
@@ -9,10 +10,12 @@ import java.util.Scanner;
 
 public class MainMenu extends BaseMenu {
     private UserManager userManager;
+    private ConnectRepo connection;
 
-    public MainMenu(UserManager userManager, MenuManager menuManager, Scanner scanner) {
+    public MainMenu(UserManager userManager, MenuManager menuManager, Scanner scanner, ConnectRepo connection) {
         super(menuManager, scanner);
         this.userManager = userManager;
+        this.connection = connection;
     }
 
     @Override
@@ -64,6 +67,7 @@ public class MainMenu extends BaseMenu {
                 }
                 break;
             case 3:
+                connection.closeConnection();
                 exit();
                 break;
             default:
