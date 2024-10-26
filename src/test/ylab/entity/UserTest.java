@@ -2,7 +2,9 @@ package ylab.entity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import ylab.entity.user.User;
+import ylab.impl.HabitRepositoryImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +13,7 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("John Doe", "john@example.com", "password123", false);
+        user = new User("John Doe", "john@example.com", "password123", false, Mockito.mock(HabitRepositoryImpl.class));
     }
 
     @Test
@@ -54,7 +56,7 @@ class UserTest {
 
     @Test
     void testMultipleUsers() {
-        User user2 = new User("Alice", "alice@example.com", "password456", true);
+        User user2 = new User("Alice", "alice@example.com", "password456", true, Mockito.mock(HabitRepositoryImpl.class));
         assertEquals(2, user2.getId());  // Ensure id increments correctly
     }
 }

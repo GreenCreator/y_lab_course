@@ -77,14 +77,21 @@ public class HabitRepositoryImpl implements HabitRepository {
 
     @Override
     public void deleteById(Long id) {
-        try (PreparedStatement pstmt = connection.prepareStatement(SELECT_SQL)) {
+        String deleteSql = "DELETE FROM entity.habits WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(deleteSql)) {
             pstmt.setLong(1, id);
-            pstmt.executeUpdate();
-
+            int rowsAffected = pstmt.executeUpdate();
+            connection.commit(); // Если у вас включен режим автокоммита, это может быть не нужно.
+            if (rowsAffected > 0) {
+                System.out.println("Habit with id " + id + " deleted successfully.");
+            } else {
+                System.out.println("No habit found with id " + id + ".");
+            }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error deleting habit: " + e.getMessage());
         }
     }
+
 
     public Habit findByTitle(String title) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_BY_TITLE)) {
