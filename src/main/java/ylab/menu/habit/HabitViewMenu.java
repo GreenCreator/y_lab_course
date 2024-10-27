@@ -52,9 +52,9 @@ public class HabitViewMenu extends BaseMenu {
         String dateInput = getScanner().nextLine();
         LocalDate filterDate = LocalDate.parse(dateInput); // Преобразуем ввод в дату
 
-        Map<String, Habit> filteredHabits = user.getHabitManager().listHabits().values().stream()
+        Map<Long, Habit> filteredHabits = user.getHabitManager().listHabits(user.getId()).values().stream()
                 .filter(habit -> habit.getCreationDate().isAfter(filterDate))
-                .collect(Collectors.toMap(Habit::getTitle, habit -> habit));
+                .collect(Collectors.toMap(Habit::getId, habit -> habit));
 
         displayFilteredHabits(filteredHabits);
     }
@@ -65,19 +65,19 @@ public class HabitViewMenu extends BaseMenu {
 
         boolean isCompleted = statusInput.equals("completed");
 
-        Map<String, Habit> filteredHabits = user.getHabitManager().listHabits().values().stream()
+        Map<Long, Habit> filteredHabits = user.getHabitManager().listHabits(user.getId()).values().stream()
                 .filter(habit -> habit.isCompleted() == isCompleted)
-                .collect(Collectors.toMap(Habit::getTitle, habit -> habit));
+                .collect(Collectors.toMap(Habit::getId, habit -> habit));
 
         displayFilteredHabits(filteredHabits);
     }
 
     private void showAllHabits() {
-        var allHabits = user.getHabitManager().listHabits();
+        var allHabits = user.getHabitManager().listHabits(user.getId());
         displayFilteredHabits(allHabits);
     }
 
-    protected void displayFilteredHabits(Map<String, Habit> habits) {
+    protected void displayFilteredHabits(Map<Long, Habit> habits) {
         if (habits.isEmpty()) {
             System.out.println("No habits found with the specified filter.");
         } else {

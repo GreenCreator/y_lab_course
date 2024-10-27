@@ -38,7 +38,7 @@ public class HabitMenu extends BaseMenu {
                 String description = scanner.nextLine();
                 System.out.print("Enter frequency (daily/weekly): ");
                 String frequency = scanner.nextLine();
-                habitManager.createHabit(title, description, frequency);
+                habitManager.createHabit(title, description, frequency, user.getId());
                 break;
             case 2:
                 System.out.print("Enter habit title: ");
@@ -47,7 +47,7 @@ public class HabitMenu extends BaseMenu {
                 if (habit != null) {
                     System.out.print("Enter new description for habit: " + habit.getTitle() + "\n");
                     String newDescription = scanner.nextLine();
-                    habit.setDescription(newDescription);
+                    habitManager.updateDescriptionByTitle(title, newDescription);
                 } else {
                     System.out.print("Not found habit\n");
                 }

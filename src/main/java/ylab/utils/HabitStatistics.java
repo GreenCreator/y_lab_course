@@ -81,7 +81,7 @@ public class HabitStatistics {
     }
 
     public void generateProgressReport(User user, LocalDate startDate, LocalDate endDate) {
-        Map<String, Habit> habits = user.getHabitManager().listHabits();
+        Map<Long, Habit> habits = user.getHabitManager().listHabits(user.getId());
 
         if (habits.isEmpty()) {
             System.out.println("No habits found for the user.");

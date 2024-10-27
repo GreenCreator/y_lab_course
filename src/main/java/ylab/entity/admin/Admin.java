@@ -7,13 +7,13 @@ public class Admin extends User {
     private UserManager userManager;
 
     public Admin(String name, String email, String password, UserManager userManager) {
-        super(name, email, password, true);
+        super(name, email, password, true, userManager.getHabitRepository());
         this.userManager = userManager;
     }
 
     public void listAllUsers() {
         userManager.getAllUsers().forEach(user -> {
-            System.out.print("ID: " + user.getId() + ", Name: " + user.getName() + ", Email: " + user.getEmail() +'\n');
+            System.out.print("ID: " + user.getId() + ", Name: " + user.getName() + ", Email: " + user.getEmail() + '\n');
         });
     }
 

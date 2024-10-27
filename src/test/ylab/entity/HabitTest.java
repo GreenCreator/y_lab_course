@@ -14,7 +14,7 @@ class HabitTest {
 
     @BeforeEach
     void setUp() {
-        habit = new Habit("Exercise", "Daily workout", "Daily");
+        habit = new Habit(1,"Exercise", "Daily workout", "Daily", false, LocalDate.now(), 1);
     }
 
     @Test

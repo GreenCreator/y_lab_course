@@ -1,5 +1,6 @@
 package ylab.menu;
 
+import ylab.ConnectRepo;
 import ylab.entity.admin.Admin;
 import ylab.menu.admin.AdminMenu;
 import ylab.menu.user.UserMenu;
@@ -9,10 +10,12 @@ import java.util.Scanner;
 
 public class MainMenu extends BaseMenu {
     private UserManager userManager;
+    private ConnectRepo connection;
 
-    public MainMenu(UserManager userManager, MenuManager menuManager, Scanner scanner) {
+    public MainMenu(UserManager userManager, MenuManager menuManager, Scanner scanner, ConnectRepo connection) {
         super(menuManager, scanner);
         this.userManager = userManager;
+        this.connection = connection;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class MainMenu extends BaseMenu {
                 System.out.print("Is admin account? (yes/no): ");
                 String confirmation = scanner.nextLine();
                 if (confirmation.equalsIgnoreCase("yes")) {
-                    userManager.registerAdmin(name, email, password, userManager);
+                    userManager.registerAdmin(name, email, password);
                 } else {
                     userManager.registerUser(name, email, password);
                 }
@@ -48,22 +51,23 @@ public class MainMenu extends BaseMenu {
                 System.out.print("Enter password: ");
                 String loginPassword = scanner.nextLine();
                 var user = userManager.login(loginEmail, loginPassword);
-                if (user != null) {
-                    if (!user.GetBlockedStatus()) {
-                        if (user.isAdmin()) {
-                            pushMenu(new AdminMenu((Admin) user, userManager, getMenuManager(), scanner));
-
-                        } else {
-                            pushMenu(new UserMenu(user, userManager, getMenuManager(), scanner));
-                        }
-                    } else {
-                        System.out.println("User is blocked.");
-                    }
-                } else {
+                if (user == null) {
                     System.out.println("Login failed!");
+                    break;
+                }
+                if (user.GetBlockedStatus()) {
+                    System.out.println("You are blocked!");
+                    break;
+                }
+
+                if (user.isAdmin()) {
+                    pushMenu(new AdminMenu(new Admin(user.getName(), user.getEmail(), user.getPassword(), userManager), userManager, getMenuManager(), scanner));
+                } else {
+                    pushMenu(new UserMenu(user, userManager, getMenuManager(), scanner));
                 }
                 break;
             case 3:
+                connection.closeConnection();
                 exit();
                 break;
             default:

@@ -4,7 +4,7 @@ import ylab.entity.user.User;
 
 import java.util.List;
 
-public interface IUser {
+public interface IUserMaganer {
 
     /**
      * Create user
@@ -14,7 +14,7 @@ public interface IUser {
     /**
      * Create admin
      */
-    boolean registerAdmin(String name, String email, String password, UserManager userManager);
+    boolean registerAdmin(String name, String email, String password);
 
     /**
      * Login user or admin

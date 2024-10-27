@@ -2,7 +2,11 @@ package ylab.utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import ylab.entity.admin.Admin;
 import ylab.entity.user.User;
+import ylab.impl.HabitRepositoryImpl;
+import ylab.impl.UserRepositoryImpl;
 
 import java.util.List;
 
@@ -15,7 +19,7 @@ public class UserManagerTest {
 
     @BeforeEach
     public void setUp() {
-        userManager = new UserManager();
+        userManager = new UserManager(Mockito.mock(UserRepositoryImpl.class), Mockito.mock(HabitRepositoryImpl.class));
         userManager.registerUser("ivan", "test@example.com", "password");
         user = userManager.getUserByEmail("test@example.com");
     }
@@ -60,8 +64,8 @@ public class UserManagerTest {
 
     @Test
     public void shouldCreateAdminSuccessfully() {
-        userManager.registerAdmin("admin", "admin@example.com", "admin", userManager);
-        var admin = userManager.getUserByEmail("admin@example.com");
+        userManager.registerAdmin("admin", "admin@example.com", "admin");
+        var admin = (Admin) userManager.getUserByEmail("admin@example.com");
         assertThat(admin.isAdmin()).isTrue();
     }
 }
