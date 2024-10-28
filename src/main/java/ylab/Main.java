@@ -26,8 +26,8 @@ public class Main {
         UserService userService = new UserService(userRepositoryImpl);
         UserService userServiceProxy = AspectHandler.createProxy(userService);
 
-        userServiceProxy.createUser(new UserDTO());
-        userServiceProxy.getUserById(1L);
+//        userServiceProxy.createUser(new UserDTO());
+//        userServiceProxy.getUserById(1L);
 
         Scanner scanner = new Scanner(System.in);
         MenuManager menuManager = new MenuManager();
