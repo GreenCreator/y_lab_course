@@ -17,12 +17,12 @@ import java.io.IOException;
 import java.util.Set;
 
 @WebServlet("/habits")
-public class HabitController extends HttpServlet {
+public class HabitServlet extends HttpServlet {
     private final HabitService habitService;
     private final ObjectMapper objectMapper;
     private final Validator validator;
 
-    public HabitController(HabitService habitService) {
+    public HabitServlet(HabitService habitService) {
         this.habitService = habitService;
         this.objectMapper = new ObjectMapper();
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -31,7 +31,7 @@ public class HabitController extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HabitDTO habitDTO = objectMapper.readValue(request.getInputStream(), HabitDTO.class);
         Set<ConstraintViolation<HabitDTO>> violations = validator.validate(habitDTO);
         if (!violations.isEmpty()) {
@@ -45,7 +45,7 @@ public class HabitController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String title = request.getParameter("title");
         String idParam = request.getParameter("user_id");
         if (title != null) {
@@ -67,7 +67,7 @@ public class HabitController extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idParam = request.getParameter("id");
         if (idParam != null) {
             Long id = Long.valueOf(idParam);

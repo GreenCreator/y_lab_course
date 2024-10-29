@@ -5,7 +5,7 @@
 <web-app>
     <servlet>
         <servlet-name>HabitController</servlet-name>
-        <servlet-class>io.servlet.HabitController</servlet-class>
+        <servlet-class>io.servlet.HabitServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HabitController</servlet-name>
