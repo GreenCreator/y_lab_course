@@ -16,6 +16,7 @@ public class UserRepositoryImpl implements UserRepository {
         this.habitRepository = habitRepository;
     }
 
+    @Override
     public void save(User user) throws SQLException {
         String query = "INSERT INTO entity.users (id, name, email, password, blocked_status, admin) " +
                 "VALUES (nextval('entity.user_id_seq'), ?, ?, ?, ?, ?) RETURNING id";
@@ -42,11 +43,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     }
 
-
-    public User findByEmail(String email) throws SQLException {
-        String query = "SELECT * FROM entity.users WHERE email = ?";
+    @Override
+    public User findById(long id) throws SQLException {
+        String query = "SELECT * FROM entity.users WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, email);
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 User user = new User(
@@ -64,6 +65,7 @@ public class UserRepositoryImpl implements UserRepository {
         return null;
     }
 
+    @Override
     public List<User> findAll() throws SQLException {
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM entity.users";
@@ -85,16 +87,17 @@ public class UserRepositoryImpl implements UserRepository {
         return users;
     }
 
-
-    public void deleteByEmail(String email) throws SQLException {
-        String query = "DELETE FROM entity.users WHERE email = ?";
+    @Override
+    public void deleteById(long id) throws SQLException {
+        String query = "DELETE FROM entity.users WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, email);
+            statement.setLong(1, id);
             statement.executeUpdate();
             connection.commit();
         }
     }
 
+    @Override
     public void updateNameUser(String name, long id) {
         String sql = "UPDATE entity.users SET name = ? WHERE id = ?";
 
@@ -114,6 +117,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
     public void updateEmailUser(String email, long id) {
         String sql = "UPDATE entity.users SET email = ? WHERE id = ?";
 
@@ -133,6 +137,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
     public void updatePasswordUser(String password, long id) {
         String sql = "UPDATE entity.users SET password = ? WHERE id = ?";
 

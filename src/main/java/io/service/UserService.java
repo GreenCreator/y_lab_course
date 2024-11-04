@@ -24,7 +24,7 @@ public class UserService {
         try {
             userRepository.save(user);
             System.out.println("User created successfully: " + user);
-            var findUser = userRepository.findByEmail(userDTO.getEmail());
+            var findUser = userRepository.findById(userDTO.getId());
             return new UserDTO(findUser.getId(), findUser.getName(), findUser.getEmail(), findUser.getPassword(), findUser.isAdmin(), findUser.GetBlockedStatus());
         } catch (SQLException e) {
             System.err.println("Error while creating user: " + e.getMessage());
@@ -33,10 +33,10 @@ public class UserService {
     }
 
     @Loggable
-    public UserDTO getUserByEmail(String email) {
+    public UserDTO getUserById(long id) {
         User user = null;
         try {
-            user = userRepository.findByEmail(email); // Получение пользователя по ID
+            user = userRepository.findById(id); // Получение пользователя по ID
         } catch (SQLException e) {
             System.err.println("Error while fetching user: " + e.getMessage());
         }
@@ -49,9 +49,9 @@ public class UserService {
     }
 
     @Loggable
-    public boolean deleteByEmail(String email) {
+    public boolean deleteById(long id) {
         try {
-            userRepository.deleteByEmail(email);
+            userRepository.deleteById(id);
             return true;
         } catch (SQLException e) {
             System.out.println("Error while delete user: " + e.getMessage());
@@ -67,7 +67,7 @@ public class UserService {
             userRepository.updateEmailUser(userDTO.getEmail(), userDTO.getId());
             userRepository.updatePasswordUser(userDTO.getPassword(), userDTO.getId());
 
-            var user = userRepository.findByEmail(userDTO.getEmail());
+            var user = userRepository.findById(userDTO.getId());
             return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.isAdmin(), user.GetBlockedStatus());
         } catch (SQLException e) {
             System.out.println("Error while updating user: " + e.getMessage());

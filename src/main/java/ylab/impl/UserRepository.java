@@ -14,7 +14,7 @@ public interface UserRepository {
     /**
      * Find user by Email
      */
-    User findByEmail(String email) throws SQLException;
+    User findById(long id) throws SQLException;
 
     /**
      * Get all user from repo
@@ -24,7 +24,7 @@ public interface UserRepository {
     /**
      * Delete user in repo
      */
-    void deleteByEmail(String email) throws SQLException;
+    void deleteById(long id) throws SQLException;
 
     /**
      * Update name on user
