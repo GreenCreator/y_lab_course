@@ -1,5 +1,8 @@
 package ylab;
 
+import io.aspect.AspectHandler;
+import io.dto.UserDTO;
+import io.service.UserService;
 import ylab.impl.HabitRepositoryImpl;
 import ylab.impl.UserRepositoryImpl;
 import ylab.menu.MainMenu;
@@ -17,7 +20,15 @@ public class Main {
         var connection = connectRepo.getConnection();
 
         var habitRepository = new HabitRepositoryImpl(connection);
-        UserManager userManager = new UserManager(new UserRepositoryImpl(connection, habitRepository), habitRepository);
+        var userRepositoryImpl = new UserRepositoryImpl(connection, habitRepository);
+        UserManager userManager = new UserManager(userRepositoryImpl, habitRepository);
+
+        UserService userService = new UserService(userRepositoryImpl);
+        UserService userServiceProxy = AspectHandler.createProxy(userService);
+
+//        userServiceProxy.createUser(new UserDTO());
+//        userServiceProxy.getUserById(1L);
+
         Scanner scanner = new Scanner(System.in);
         MenuManager menuManager = new MenuManager();
 
